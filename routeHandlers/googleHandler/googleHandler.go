@@ -38,6 +38,7 @@ func Health(respWriter http.ResponseWriter, req *http.Request) {
 func Authenticate(respWriter http.ResponseWriter, req *http.Request) {
 	oAuthUrl := buildOAuthUrl(GoogleClientId, PhotoReadScope, RedirectUri)
 	respWriter.Header().Set("Location", oAuthUrl)
+	respWriter.WriteHeader(302)
 }
 
 // AuthCallback attempts to request a Google API token, and
@@ -49,19 +50,21 @@ func AuthCallback(respWriter http.ResponseWriter, req *http.Request) {
 	code := vars["code"]
 	if (code == "") {
 		http.Error(respWriter, "code not found.", 400)
+		return
 	}
 
 	err := json.NewEncoder(respWriter).Encode(req)
 	if (err != nil) {
 		fmt.Println(err)
 		http.Error(respWriter, "could not encode response.", 500)
+		return
 	}
 }
 
 // buildOAuthUrl builds and returns the Google OAuth screen URL
 func buildOAuthUrl(clientId string, scope string, redirectUri string) string {
 	return "https://accounts.google.com/o/oauth2/v2/auth?client_id=" +
-		GoogleClientId + "&response_type=code&scope=" + scope + "&redirect_uri" + redirectUri
+		GoogleClientId + "&response_type=code&scope=" + scope + "&redirect_uri=" + redirectUri
 }
 
 // buildRequestTokenUrl builds and returns the Google request token URL
@@ -72,5 +75,4 @@ func buildRequestTokenUrl(code string, clientId string, clientSecret string, red
 		"client_secret" + clientSecret + "&" +
 		"redirect_uri" + redirectUri + "&" +
 		"grant_type" + grantType
-
 }
