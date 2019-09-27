@@ -7,6 +7,8 @@ import (
 	"runtime"
 )
 
+// openbrowser executes an OS command to open a browser
+// at a given URL. Works cross-platform (linux, windows, mac)
 func openbrowser(url string) {
 	var err error
 
@@ -23,5 +25,4 @@ func openbrowser(url string) {
 	if err != nil {
 		log.Fatal(err)
 	}
-
 }
