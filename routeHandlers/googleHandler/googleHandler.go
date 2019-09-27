@@ -46,9 +46,7 @@ func authenticate(respWriter http.ResponseWriter, req *http.Request) {
 // is hit when the user gives access to their Google Photos library
 // via health()
 func authCallback(respWriter http.ResponseWriter, req *http.Request) {
-	vars := mux.Vars(req)
-
-	code := vars["code"]
+	code := req.FormValue("code")
 	if code == "" {
 		http.Error(respWriter, "code not found.", 400)
 		return
