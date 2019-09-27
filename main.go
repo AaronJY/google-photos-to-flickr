@@ -3,9 +3,10 @@ package main
 import (
 	"fmt"
 	"gPhotosToFlickr/routeHandlers/googleHandler"
-	"github.com/gorilla/mux"
 	"log"
 	"net/http"
+
+	"github.com/gorilla/mux"
 )
 
 func main() {
