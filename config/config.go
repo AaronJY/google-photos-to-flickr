@@ -16,6 +16,9 @@ type Config struct {
 		ClientSecret string `yaml:"clientsecret" envconfig:"GOOGLE_CLIENTSECRET"`
 		RedirectURI  string `yaml:"redirecturi" envconfig:"GOOGLE_REDIRECTURI"`
 	} `yaml:"google"`
+	Server struct {
+		Port string `yaml:"port" envconfig:"SERVER_PORT"`
+	} `yaml:"server"`
 }
 
 // ReadConfig loads config into the given config instance

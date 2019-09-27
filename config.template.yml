@@ -3,3 +3,7 @@ google:
     clientid: "..."
     clientsecret: "..."
     redirecturi: "..."
+
+# Server config
+server:
+    port: "..."

@@ -1,19 +1,16 @@
 package googleHandler
 
 import (
-	"encoding/json"
 	"fmt"
-	"net/http"
-
+	"gPhotosToFlickr/config"
 	"github.com/gorilla/mux"
+	"net/http"
 )
 
-const routePrefix = "/api/google"
+var AppConfig *config.Config
 
-// TODO: These need to be moved to environment variables
-const googleClientID = "670357560287-i14cmjb033n19ssa2m0nng419uknqk59.apps.googleusercontent.com"
+const routePrefix = "/api/google"
 const photoReadScope = "https://www.googleapis.com/auth/drive.photos.readonly"
-const redirectURI = "http://localhost:1337/api/google/callback"
 
 // RegisterRoutes sets up routing for the /google route prefix
 func RegisterRoutes(router *mux.Router) {
@@ -31,13 +28,16 @@ func health(respWriter http.ResponseWriter, req *http.Request) {
 	respWriter.WriteHeader(200)
 
 	msgBytes := []byte("It works!")
-	respWriter.Write(msgBytes)
+	_, err := respWriter.Write(msgBytes)
+	if err != nil {
+		_ = fmt.Errorf(err.Error())
+	}
 }
 
 // authenticate redirects the other to the Google OAuth login
 // screen
 func authenticate(respWriter http.ResponseWriter, req *http.Request) {
-	oAuthUrl := buildOAuthURL(googleClientID, photoReadScope, redirectURI)
+	oAuthUrl := buildOAuthURL(AppConfig.Google.ClientID, photoReadScope, AppConfig.Google.RedirectURI)
 	respWriter.Header().Set("Location", oAuthUrl)
 	respWriter.WriteHeader(302)
 }
@@ -52,18 +52,15 @@ func authCallback(respWriter http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	err := json.NewEncoder(respWriter).Encode(req)
-	if err != nil {
-		fmt.Println(err)
-		http.Error(respWriter, "could not encode response.", 500)
-		return
-	}
+	// Build the URL to Google's token resolution URL based on the code
+	buildTokenURL := buildRequestTokenURL(code, AppConfig.Google.ClientID, AppConfig.Google.ClientSecret, AppConfig.Google.RedirectURI, "authorization_token")
+	fmt.Println(buildTokenURL)
 }
 
 // buildOAuthURL builds and returns the Google OAuth screen URL
 func buildOAuthURL(clientId string, scope string, redirectUri string) string {
 	return "https://accounts.google.com/o/oauth2/v2/auth?client_id=" +
-		googleClientID + "&response_type=code&scope=" + scope + "&redirect_uri=" + redirectUri
+		clientId + "&response_type=code&scope=" + scope + "&redirect_uri=" + redirectUri
 }
 
 // buildRequestTokenURL builds and returns the Google request token URL
