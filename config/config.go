@@ -24,7 +24,7 @@ type Config struct {
 // ReadConfig loads config into the given config instance
 // from the config.yml file
 func ReadConfig(cfg *Config) {
-	f, err := os.Open("../config.yml")
+	f, err := os.Open("config.yml")
 	if err != nil {
 		processError(err)
 	}

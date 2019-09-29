@@ -13,7 +13,7 @@ import (
 var AppConfig config.Config
 
 func main() {
-	config.ReadEnv(&AppConfig)
+	config.ReadConfig(&AppConfig)
 
 	router := mux.NewRouter().StrictSlash(true)
 
@@ -21,7 +21,7 @@ func main() {
 	googleHandler.RegisterRoutes(router)
 
 	fmt.Println("All routes registered!")
-	fmt.Println("Listening!")
+	fmt.Println("Listening on port " + AppConfig.Server.Port)
 
-	log.Fatal(http.ListenAndServe(":1337", router))
+	log.Fatal(http.ListenAndServe(":" + AppConfig.Server.Port, router))
 }
