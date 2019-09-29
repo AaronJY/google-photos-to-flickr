@@ -14,7 +14,6 @@ type Config struct {
 	Google struct {
 		ClientID     string `yaml:"clientid" envconfig:"GOOGLE_CLIENTID"`
 		ClientSecret string `yaml:"clientsecret" envconfig:"GOOGLE_CLIENTSECRET"`
-		RedirectURI  string `yaml:"redirecturi" envconfig:"GOOGLE_REDIRECTURI"`
 	} `yaml:"google"`
 	Server struct {
 		Port string `yaml:"port" envconfig:"SERVER_PORT"`
@@ -47,6 +46,6 @@ func ReadEnv(cfg *Config) {
 
 // processError processes errors from config.go
 func processError(err error) {
-	fmt.Errorf(err.Error())
+	fmt.Println(err.Error())
 	os.Exit(2)
 }
