@@ -1,9 +1,8 @@
 # Google API/OAuth credentials and options
 google:
-    clientid: "..."
-    clientsecret: "..."
-    redirecturi: "..."
+	clientid: "..."
+	clientsecret: "..."
 
 # Server config
 server:
-    port: "..."
+	port: "..."

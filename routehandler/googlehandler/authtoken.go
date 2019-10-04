@@ -1,4 +1,4 @@
-package googleHandler
+package googlehandler
 
 import (
 	"net/http"
@@ -6,14 +6,17 @@ import (
 	"time"
 )
 
+//AuthToken represents a Google authentication token
 type AuthToken struct {
-	accessToken string
+	accessToken  string
 	refreshToken string
-	expiresIn int
-	expiresOn time.Time
-	tokenType string
+	expiresIn    int
+	expiresOn    time.Time
+	tokenType    string
 }
 
+// NewAuthToken creates and returns a pointer to a new AuthToken struct
+// based on a given response and creation time
 func NewAuthToken(response *http.Request, createdOn time.Time) *AuthToken {
 	authToken := new(AuthToken)
 	authToken.accessToken = response.FormValue("access_token")
@@ -28,4 +31,3 @@ func NewAuthToken(response *http.Request, createdOn time.Time) *AuthToken {
 
 	return authToken
 }
-

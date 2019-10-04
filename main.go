@@ -10,6 +10,7 @@ import (
 	"github.com/gorilla/mux"
 )
 
+// AppConfig is the app's configuration
 var AppConfig config.Config
 
 func main() {
@@ -23,5 +24,5 @@ func main() {
 	fmt.Println("All routes registered!")
 	fmt.Println("Listening on port " + AppConfig.Server.Port)
 
-	log.Fatal(http.ListenAndServe(":" + AppConfig.Server.Port, router))
+	log.Fatal(http.ListenAndServe(":"+AppConfig.Server.Port, router))
 }

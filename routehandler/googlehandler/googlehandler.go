@@ -1,24 +1,25 @@
-package googleHandler
+package googlehandler
 
 import (
 	"encoding/json"
 	"fmt"
 	"gPhotosToFlickr/config"
-	"github.com/gorilla/mux"
 	"io"
 	"io/ioutil"
 	"net/http"
 	"net/url"
 	"time"
+
+	"github.com/gorilla/mux"
 )
 
 var AppConfig *config.Config
 
 const (
-	routePrefix = "/api/google"
-	photoReadScope = "https://www.googleapis.com/auth/drive.photos.readonly"
-	redirectUriAuth = "http://localhost:1337/api/google/authcallback"
-	redirectUriToken = "http://localhost:1337/api/google/tokencallback"
+	routePrefix         = "/api/google"
+	photoReadScope      = "https://www.googleapis.com/auth/drive.photos.readonly"
+	redirectUriAuth     = "http://localhost:1337/api/google/authcallback"
+	redirectUriToken    = "http://localhost:1337/api/google/tokencallback"
 	googleTokenEndpoint = "https://oauth2.googleapis.com/token"
 )
 
