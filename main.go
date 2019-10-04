@@ -3,7 +3,8 @@ package main
 import (
 	"fmt"
 	"gPhotosToFlickr/config"
-	"gPhotosToFlickr/routeHandlers/googleHandler"
+	"gPhotosToFlickr/routehandler/googlehandler"
+	"gPhotosToFlickr/routehandler/webhandler"
 	"log"
 	"net/http"
 
@@ -17,12 +18,18 @@ func main() {
 	config.ReadConfig(&AppConfig)
 
 	router := mux.NewRouter().StrictSlash(true)
-
-	googleHandler.AppConfig = &AppConfig
-	googleHandler.RegisterRoutes(router)
+	initHandlers(router)
 
 	fmt.Println("All routes registered!")
 	fmt.Println("Listening on port " + AppConfig.Server.Port)
 
 	log.Fatal(http.ListenAndServe(":"+AppConfig.Server.Port, router))
+}
+
+// initHandlers initializes API and web handlers/routing
+func initHandlers(router *mux.Router) {
+	googlehandler.AppConfig = &AppConfig
+	googlehandler.RegisterRoutes(router)
+
+	webhandler.RegisterRoutes(router)
 }
