@@ -1,0 +1,15 @@
+<template>
+	<div id="linkToGoogle">
+		<h2>Step 1 <small>- Log in with Google</small></h2>
+		<div>
+			<p>To start, click the button below to securely login with your Google account.</p>
+			<p>You will be prompted to give us read access to your photos. We need these permissions to download all of
+				your photos ready to move them to Flickr!</p>
+		</div>
+		<div class="row justify-content-center">
+			<div class="col-sm-12 col-md-6 col-lg-4">
+				<div class="text-center"><button class="btn btn-primary btn-lg m-3" click.delegate="onClick($event)"> <i class="fab fa-google"></i>&nbsp;${label}</button></div>
+			</div>
+		</div>
+	</div>
+</template>

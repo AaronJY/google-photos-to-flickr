@@ -8,5 +8,5 @@ import (
 
 // RegisterRoutes sets up routing for the web application
 func RegisterRoutes(router *mux.Router) {
-	router.Handle("/", http.FileServer(http.Dir("./public")))
+	router.PathPrefix("/").Handler(http.FileServer(http.Dir("./public/dist")))
 }
