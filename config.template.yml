@@ -5,4 +5,7 @@ google:
 
 # Server config
 server:
-    port: "..."
+    port: 1337
+
+redis:
+    address: "localhost:1338"

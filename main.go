@@ -5,31 +5,52 @@ import (
 	"gPhotosToFlickr/config"
 	"gPhotosToFlickr/routehandler/googlehandler"
 	"gPhotosToFlickr/routehandler/webhandler"
+	"github.com/go-redis/redis"
 	"log"
 	"net/http"
+	"strconv"
 
 	"github.com/gorilla/mux"
 )
 
-// AppConfig is the app's configuration
-var AppConfig config.Config
+// appConfig is the app's configuration
+var appConfig config.Config
+var redisClient redis.Client
 
 func main() {
-	config.ReadConfig(&AppConfig)
+	// Load config
+	config.ReadConfig(&appConfig)
 
+	// Setup routers
 	router := mux.NewRouter().StrictSlash(true)
 	initHandlers(router)
 
-	fmt.Println("All routes registered!")
-	fmt.Println("Listening on port " + AppConfig.Server.Port)
+	// Setup redis
+	setupRedis()
 
-	log.Fatal(http.ListenAndServe(":"+AppConfig.Server.Port, router))
+	serverPortStr := strconv.Itoa(appConfig.Server.Port)
+	fmt.Println("Listening on port " + serverPortStr)
+	log.Fatal(http.ListenAndServe(":" + serverPortStr, router))
+}
+
+func setupRedis() {
+	// Setup redis
+	redisClient := redis.NewClient(&redis.Options{
+		Addr: appConfig.Redis.Address,
+		Password: "",
+		DB: 0, // use default database
+	})
+
+	pong, err := redisClient.Ping().Result()
+	fmt.Println(pong, err)
 }
 
 // initHandlers initializes API and web handlers/routing
 func initHandlers(router *mux.Router) {
-	googlehandler.AppConfig = &AppConfig
+	googlehandler.AppConfig = &appConfig
 	googlehandler.RegisterRoutes(router)
 
 	webhandler.RegisterRoutes(router)
+
+	fmt.Println("All routes registered!")
 }

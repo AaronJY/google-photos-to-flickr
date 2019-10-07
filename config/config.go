@@ -16,8 +16,11 @@ type Config struct {
 		ClientSecret string `yaml:"clientsecret" envconfig:"GOOGLE_CLIENTSECRET"`
 	} `yaml:"google"`
 	Server struct {
-		Port string `yaml:"port" envconfig:"SERVER_PORT"`
+		Port int `yaml:"port" envconfig:"SERVER_PORT"`
 	} `yaml:"server"`
+	Redis struct {
+		Address string `yaml:"address" envconfig:"REDIS_ADDRESS"`
+	}
 }
 
 // ReadConfig loads config into the given config instance

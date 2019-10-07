@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"gPhotosToFlickr/config"
+	"github.com/go-redis/redis"
 	"github.com/gorilla/mux"
 	"io"
 	"io/ioutil"
@@ -12,6 +13,7 @@ import (
 )
 
 var AppConfig *config.Config
+var RedisClient *redis.Client
 
 const (
 	routePrefix         = "/api/google"
@@ -88,7 +90,6 @@ func requestToken(code string, respWriter http.ResponseWriter) {
 		}
 
 		http.Error(respWriter, googleErr.GetError(), 500)
-
 		return
 	}
 
@@ -99,7 +100,13 @@ func requestToken(code string, respWriter http.ResponseWriter) {
 		fmt.Println(err.Error())
 	}
 
-	_ = json.NewEncoder(respWriter).Encode(authToken)
+	err = RedisClient.Set("googleAuthToken", authToken, 0).Err()
+	if err != nil {
+		panic("could not write googleAuthToken to redis")
+	}
+
+	respWriter.Header().Set("Location", "http://localhost:1337?googleAuth=1")
+	respWriter.WriteHeader(302)
 }
 
 func getGoogleErrorFromResponseBody(reader io.ReadCloser) (*GoogleError, error) {
