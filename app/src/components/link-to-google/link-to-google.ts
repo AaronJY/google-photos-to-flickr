@@ -14,7 +14,5 @@ export class LinkToGoogle {
   private onClick(event: MouseEvent) {
     const authUrl = this.googleHttpService.getAuthUrl();
     window.location.href = authUrl;
-
-    console.log('Assigned window location...');
   }
 }

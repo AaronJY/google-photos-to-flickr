@@ -3,5 +3,9 @@ main {
 }
 
 h1 {
-    margin-bottom: 30px;
+    margin-bottom: 80px;
+}
+
+#googleDownloadProgBar {
+    height: 40px;
 }

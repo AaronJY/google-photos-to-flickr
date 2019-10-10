@@ -1,12 +1,10 @@
 <template>
 	<require from="styles/main.css"></require>
-	<require from="components/link-to-google"></require>
-
 	<main>
+		
 		<div class="container">
-			<h1 class="display-4">${message}</h1>
-
-			<link-to-google></link-to-google>
+			<h1 if.bind="title" class="display-4">${title}</h1>
+			<router-view></router-view>
 		</div>
 	</main>
 </template>
