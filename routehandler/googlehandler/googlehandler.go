@@ -98,7 +98,7 @@ func requestToken(code string, respWriter http.ResponseWriter) {
 		fmt.Println(err.Error())
 	}
 
-	respWriter.Header().Set("Location", "http://localhost:1337?googleAuth=1")
+	respWriter.Header().Set("Location", "http://localhost:1337?googleAuth=1&apiToken=" + authToken.AccessToken)
 	respWriter.WriteHeader(302)
 }
 
