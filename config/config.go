@@ -18,9 +18,6 @@ type Config struct {
 	Server struct {
 		Port int `yaml:"port" envconfig:"SERVER_PORT"`
 	} `yaml:"server"`
-	Redis struct {
-		Address string `yaml:"address" envconfig:"REDIS_ADDRESS"`
-	}
 }
 
 // ReadConfig loads config into the given config instance

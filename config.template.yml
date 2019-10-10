@@ -6,6 +6,3 @@ google:
 # Server config
 server:
     port: 1337
-
-redis:
-    address: "localhost:1338"
