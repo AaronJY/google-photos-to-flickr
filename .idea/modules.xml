@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/gPhotosToFlickr.iml" filepath="$PROJECT_DIR$/.idea/gPhotosToFlickr.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/google-photos-to-flickr.iml" filepath="$PROJECT_DIR$/.idea/google-photos-to-flickr.iml" />
     </modules>
   </component>
 </project>

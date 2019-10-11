@@ -23,6 +23,12 @@ type Config struct {
 // ReadConfig loads config into the given config instance
 // from the config.yml file
 func ReadConfig(cfg *Config) {
+	if _, err := os.Stat("config.yml"); err != nil {
+		if os.IsNotExist(err) {
+			fmt.Println("Before continuing, please take a copy of 'config.template.yml', rename it as 'config.yml' and set your config.")
+			os.Exit(2)
+		}
+	}
 	f, err := os.Open("config.yml")
 	if err != nil {
 		processError(err)
