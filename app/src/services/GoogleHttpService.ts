@@ -1,5 +1,4 @@
 import { HttpServiceBase } from "./HttpServiceBase";
-import { HttpClientConfiguration } from "aurelia-fetch-client";
 
 export class GoogleHttpService extends HttpServiceBase {
 	readonly UrlPrefix = `${this.ApiBaseUrl}google/`;
@@ -7,8 +6,6 @@ export class GoogleHttpService extends HttpServiceBase {
 
 	apiToken: string;
 
-	constructor() {
-	}
 	getAuthUrl(): string {
 		return `${this.UrlPrefix}auth`;
 	}

@@ -60,6 +60,7 @@
     "build": "webpack --env.production --extractCss",
     "start": "webpack-dev-server --extractCss",
     "build:dev": "webpack --extractCss",
+    "build:dev:watch": "webpack --extractCss --watch",
     "analyze": "webpack --env.production --analyze",
     "test": "au test"
   },

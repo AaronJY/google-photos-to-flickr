@@ -3,6 +3,7 @@ package googlehandler
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/AaronJY/google-photos-to-flickr/common/google"
 	"github.com/AaronJY/google-photos-to-flickr/config"
 	"github.com/gorilla/mux"
 	"io"
@@ -54,7 +55,7 @@ func authenticate(respWriter http.ResponseWriter, req *http.Request) {
 // is hit when the user gives access to their Google Photos library
 // via health()
 func authCallback(respWriter http.ResponseWriter, req *http.Request) {
-	fmt.Println("Received code!")
+	fmt.Println("Successfully retrieved Google OAuth code")
 
 	code := req.FormValue("code")
 	if code == "" {
@@ -73,8 +74,6 @@ func requestToken(code string, respWriter http.ResponseWriter) {
 	tokenUrlValues.Set("redirect_uri", redirectUriAuth)
 	tokenUrlValues.Set("grant_type", "authorization_code")
 
-	fmt.Println("Requesting auth token...")
-
 	resp, _ := http.PostForm(googleTokenEndpoint, tokenUrlValues)
 
 	if resp.StatusCode != 200 {
@@ -83,7 +82,7 @@ func requestToken(code string, respWriter http.ResponseWriter) {
 		googleErr, err := getGoogleErrorFromResponseBody(resp.Body)
 		if err != nil {
 			http.Error(respWriter, "something went wrong", 500)
-			fmt.Println(err.Error())
+			fmt.Println("Error retrieving Google auth token:", err.Error())
 			return
 		}
 
@@ -91,19 +90,21 @@ func requestToken(code string, respWriter http.ResponseWriter) {
 		return
 	}
 
-	authToken := new(AuthToken)
+	fmt.Println("Successfully retrieved Google auth token")
+
+	authToken := new(google.AuthToken)
 	err := json.NewDecoder(resp.Body).Decode(authToken)
 	if err != nil {
 		http.Error(respWriter, "could not read auth token", 500)
-		fmt.Println(err.Error())
+		fmt.Println("Could not decode auth token json:", err.Error())
 	}
 
-	respWriter.Header().Set("Location", "http://localhost:1337?googleAuth=1&apiToken=" + authToken.AccessToken)
+	respWriter.Header().Set("Location", "http://localhost:1337?googleAuth=1&googleapikey=" + authToken.AccessToken)
 	respWriter.WriteHeader(302)
 }
 
-func getGoogleErrorFromResponseBody(reader io.ReadCloser) (*GoogleError, error) {
-	googleErr := new(GoogleError)
+func getGoogleErrorFromResponseBody(reader io.ReadCloser) (*google.GoogleError, error) {
+	googleErr := new(google.GoogleError)
 	errBytes, _ := ioutil.ReadAll(reader)
 
 	defer reader.Close()

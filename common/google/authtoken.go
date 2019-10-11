@@ -1,4 +1,4 @@
-package googlehandler
+package google
 
 import (
 	"time"

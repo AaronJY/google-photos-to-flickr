@@ -1,4 +1,4 @@
-package googlehandler
+package google
 
 // GoogleError represents a Google API error response body
 type GoogleError struct {
