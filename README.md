@@ -1,6 +1,8 @@
 # GPhotos2Flickr (google-photos-to-flickr)
 A demo Go application that imports all of your Google photos to Flickr.
 
+[![Build Status](https://travis-ci.org/AaronJY/google-photos-to-flickr.svg?branch=master)](https://travis-ci.org/AaronJY/google-photos-to-flickr)
+
 ## Disclaimer
 This is very much a "hello world" app. I wanted to build something while getting to grips with go, and this is it! Because of that, the code may not always meet Go style guidelines - or even make sense. Feel free to raise an issue to leave feedback, or point me in the direction of anything that you feel should be changed :)
 
