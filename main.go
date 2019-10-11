@@ -27,7 +27,6 @@ func main() {
 	log.Fatal(http.ListenAndServe(":" + serverPortStr, router))
 }
 
-
 // initHandlers initializes API and web handlers/routing
 func initHandlers(router *mux.Router) {
 	googlehandler.AppConfig = &appConfig
@@ -35,5 +34,5 @@ func initHandlers(router *mux.Router) {
 
 	webhandler.RegisterRoutes(router)
 
-	fmt.Println("All routes registered!")
+	fmt.Println("All routes registered")
 }
