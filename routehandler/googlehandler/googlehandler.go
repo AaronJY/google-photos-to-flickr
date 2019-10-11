@@ -31,8 +31,7 @@ func RegisterRoutes(router *mux.Router) {
 	fmt.Println("Successfully registered google routes.")
 }
 
-// health writes with a generic response message to let
-// users know the API is working
+// health writes with a generic response message to let users know the API is working
 func health(respWriter http.ResponseWriter, req *http.Request) {
 	respWriter.WriteHeader(200)
 
@@ -43,17 +42,14 @@ func health(respWriter http.ResponseWriter, req *http.Request) {
 	}
 }
 
-// authenticate redirects the other to the Google OAuth login
-// screen
+// authenticate redirects the other to the Google OAuth login screen
 func authenticate(respWriter http.ResponseWriter, req *http.Request) {
 	oAuthUrl := buildOAuthURL(AppConfig.Google.ClientID, photoReadScope, redirectUriAuth)
 	respWriter.Header().Set("Location", oAuthUrl)
 	respWriter.WriteHeader(302)
 }
 
-// authCallback attempts to request a Google API token, and
-// is hit when the user gives access to their Google Photos library
-// via health()
+// authCallback attempts to request a Google API token
 func authCallback(respWriter http.ResponseWriter, req *http.Request) {
 	fmt.Println("Successfully retrieved Google OAuth code")
 
@@ -66,6 +62,7 @@ func authCallback(respWriter http.ResponseWriter, req *http.Request) {
 	requestToken(code, respWriter)
 }
 
+// requestToken requests a Google authentication based on an OAauth code
 func requestToken(code string, respWriter http.ResponseWriter) {
 	tokenUrlValues := url.Values{}
 	tokenUrlValues.Set("code", code)
@@ -103,8 +100,9 @@ func requestToken(code string, respWriter http.ResponseWriter) {
 	respWriter.WriteHeader(302)
 }
 
-func getGoogleErrorFromResponseBody(reader io.ReadCloser) (*google.GoogleError, error) {
-	googleErr := new(google.GoogleError)
+// getGoogleErrorFromResponseBody gets a Google error response string from a response body
+func getGoogleErrorFromResponseBody(reader io.ReadCloser) (*google.Error, error) {
+	googleErr := new(google.Error)
 	errBytes, _ := ioutil.ReadAll(reader)
 
 	defer reader.Close()
