@@ -1,4 +1,4 @@
-# GPhotos2Flickr (google-photos-to-flickr)
+# Google Photos to Flickr
 A Go application that imports all of your Google photos to Flickr.
 
 [![Build Status](https://travis-ci.org/AaronJY/google-photos-to-flickr.svg?branch=master)](https://travis-ci.org/AaronJY/google-photos-to-flickr)
