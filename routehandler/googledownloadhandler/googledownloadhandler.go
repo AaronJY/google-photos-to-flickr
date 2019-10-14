@@ -1,16 +1,18 @@
 package googledownloadhandler
 
 import (
-	. "github.com/AaronJY/google-photos-to-flickr/config"
+	"github.com/AaronJY/google-photos-to-flickr/config"
 	"github.com/gorilla/mux"
 	"net/http"
 )
 
-var AppConfig Config
+var AppConfig config.Config
+var AppState config.AppState
 
-var IsDownloading bool = false
-
-const routePrefix = "/api/google/download"
+const (
+	routePrefix = "/api/google/download"
+	googlePhotosApiBaseUrl = "https://photoslibrary.googleapis.com/v1/"
+)
 
 // RegisterRoutes registers API routes for googledownloadhandler
 func RegisterRoutes(router *mux.Router) {
@@ -20,13 +22,13 @@ func RegisterRoutes(router *mux.Router) {
 }
 
 // Download initiates the download process
-func Download() {
+func Download(resp http.ResponseWriter, req *http.Request) {
+	AppState.IsDownloading = true
+
 
 }
 
-// DownloadStatus returns the status of the current download task
-func GetDownloadStatus() {
-
+func doDownload(nextPageToken string) {
 }
 
 // DownloadInfo returns detailed information on a completed download

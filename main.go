@@ -2,34 +2,33 @@ package main
 
 import (
 	"fmt"
-	"github.com/AaronJY/google-photos-to-flickr/routehandler/googlehandler"
-	"github.com/AaronJY/google-photos-to-flickr/routehandler/webhandler"
-	"github.com/AaronJY/google-photos-to-flickr/config"
 	"log"
 	"net/http"
 	"strconv"
+
+	. "github.com/AaronJY/google-photos-to-flickr/config"
+	"github.com/AaronJY/google-photos-to-flickr/routehandler/googlehandler"
+	"github.com/AaronJY/google-photos-to-flickr/routehandler/webhandler"
 	"github.com/gorilla/mux"
 )
 
-// appConfig is the app's configuration
-var appConfig config.Config
+var appConfig Config
+var appState AppState
 
 func main() {
-	// Load config
-	config.ReadConfig(&appConfig)
+	ReadConfig(&appConfig)
 
-	// Setup routers
 	router := mux.NewRouter().StrictSlash(true)
-	initHandlers(router)
+	initRouteHandlers(router)
 
 	serverPortStr := strconv.Itoa(appConfig.Server.Port)
 	fmt.Println("Listening on port " + serverPortStr)
-	log.Fatal(http.ListenAndServe(":" + serverPortStr, router))
+	log.Fatal(http.ListenAndServe(":"+serverPortStr, router))
 }
 
-// initHandlers initializes API and web handlers/routing
-func initHandlers(router *mux.Router) {
+func initRouteHandlers(router *mux.Router) {
 	googlehandler.AppConfig = &appConfig
+	googlehandler.AppState = &appState
 	googlehandler.RegisterRoutes(router)
 
 	webhandler.RegisterRoutes(router)

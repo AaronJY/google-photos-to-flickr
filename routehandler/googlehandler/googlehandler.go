@@ -3,43 +3,32 @@ package googlehandler
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/AaronJY/google-photos-to-flickr/common/google"
-	"github.com/AaronJY/google-photos-to-flickr/config"
-	"github.com/gorilla/mux"
 	"io"
 	"io/ioutil"
 	"net/http"
 	"net/url"
+
+	"github.com/AaronJY/google-photos-to-flickr/common/google"
+	"github.com/AaronJY/google-photos-to-flickr/config"
+	"github.com/gorilla/mux"
 )
 
 var AppConfig *config.Config
+var AppState *config.AppState
 
 const (
 	routePrefix         = "/api/google"
-	photoReadScope      = "https://www.googleapis.com/auth/drive.photos.readonly"
+	photoReadScope      = "https://www.googleapis.com/auth/photoslibrary.readonly"
 	redirectUriAuth     = "http://localhost:1337/api/google/authcallback"
 	googleTokenEndpoint = "https://oauth2.googleapis.com/token"
 )
 
-// RegisterRoutes sets up routing for the /google route prefix
 func RegisterRoutes(router *mux.Router) {
 	subRouter := router.PathPrefix(routePrefix).Subrouter()
-	subRouter.HandleFunc("/health", health).Methods("GET")
 	subRouter.HandleFunc("/auth", authenticate).Methods("GET")
 	subRouter.HandleFunc("/authcallback", authCallback).Methods("GET")
 
 	fmt.Println("Successfully registered google routes.")
-}
-
-// health writes with a generic response message to let users know the API is working
-func health(respWriter http.ResponseWriter, req *http.Request) {
-	respWriter.WriteHeader(200)
-
-	msgBytes := []byte("It works!")
-	_, err := respWriter.Write(msgBytes)
-	if err != nil {
-		fmt.Print(err.Error())
-	}
 }
 
 // authenticate redirects the other to the Google OAuth login screen
@@ -89,14 +78,14 @@ func requestToken(code string, respWriter http.ResponseWriter) {
 
 	fmt.Println("Successfully retrieved Google auth token")
 
-	authToken := new(google.AuthToken)
-	err := json.NewDecoder(resp.Body).Decode(authToken)
+	err := json.NewDecoder(resp.Body).Decode(&AppState.GoogleAuthToken)
 	if err != nil {
 		http.Error(respWriter, "could not read auth token", 500)
 		fmt.Println("Could not decode auth token json:", err.Error())
+		return
 	}
 
-	respWriter.Header().Set("Location", "http://localhost:1337?googleAuth=1&googleapikey=" + authToken.AccessToken)
+	respWriter.Header().Set("Location", "http://localhost:1337?googleAuth=1&googleapikey="+AppState.GoogleAuthToken.AccessToken)
 	respWriter.WriteHeader(302)
 }
 
