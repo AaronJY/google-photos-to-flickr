@@ -1,9 +1,19 @@
 <template>
     <div id="downloadGoogleLibrary">
         <h3>Step 2 <small>Downloading your Google library...</small></h3>
-        <p>${apiKey}</p>
-        <p>Download progress:</p>
-        <div id="googleDownloadProgBar" class="progress">
+
+        <div if.bind="isProcessing">
+            <p>Counting your Google photos...</p>
+            <div class="alert alert-secondary" role="alert">
+                If you have a lot of photos, this process may take some time. Check back in a little while!
+            </div>
+            <div class="progress" id="googleProcessingProgBar">
+                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
+                    aria-valuenow="75" aria-valuemin="100" aria-valuemax="100" style="width: 100%">Processing...</div>
+            </div>
+        </div>
+
+        <div if.bind="isUploading" id="googleDownloadProgBar" class="progress">
             <div class="progress-bar" role="progressbar" aria-valuenow.bind="progress" aria-valuemin="0"
                 aria-valuemax="100" style="width: ${progressWidthPercentage}%">${progress}%</div>
         </div>

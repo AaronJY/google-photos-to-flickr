@@ -6,6 +6,12 @@ h1 {
     margin-bottom: 80px;
 }
 
-#googleDownloadProgBar {
+.progress {
     height: 40px;
+}
+
+.step-disabled {
+    pointer-events: none;
+    opacity: 0.5;
+    filter: grayscale(1);
 }

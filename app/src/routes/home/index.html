@@ -2,7 +2,7 @@
     <require from="components/link-to-google/link-to-google"></require>
     <require from="components/download-google-library/download-google-library"></require>
 
-    <link-to-google></link-to-google>
+    <link-to-google disabled.bind="googleApiKey"></link-to-google>
     
     <template if.bind="googleApiKey">
         <download-google-library api-key.bind="googleApiKey"></download-google-library>

@@ -1,18 +1,19 @@
-import { inject } from "aurelia-framework";
-import { GoogleHttpService } from "services/GoogleHttpService";
+import { inject, bindable } from "aurelia-framework";
+import { GoogleAppHttpService } from "services/GoogleAppHttpService";
 
-@inject(GoogleHttpService)
+@inject(GoogleAppHttpService)
 export class LinkToGoogle {
-  private label: string = "Link your Google account!";
+  googleAppHttpService: GoogleAppHttpService;
 
-  private googleHttpService: GoogleHttpService;
+  label: string = "Link your Google account!";
+  @bindable disabled: boolean;
 
-  constructor(googleHttpService: GoogleHttpService) {
-    this.googleHttpService = googleHttpService;
+  constructor(googleHttpService: GoogleAppHttpService) {
+    this.googleAppHttpService = googleHttpService;
   }
 
-  private onClick(event: MouseEvent) {
-    const authUrl = this.googleHttpService.getAuthUrl();
+  onClick(event: MouseEvent) {
+    const authUrl = this.googleAppHttpService.getAuthUrl();
     window.location.href = authUrl;
   }
 }
