@@ -1,9 +1,8 @@
 <template>
 	<require from="styles/main.css"></require>
+	<h1>${title}</h1>
 	<main>
-		
-		<div class="container">
-			<h1 if.bind="title" class="display-4">${title}</h1>
+		<div id="container">
 			<router-view></router-view>
 		</div>
 	</main>

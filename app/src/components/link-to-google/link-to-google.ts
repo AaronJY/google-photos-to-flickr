@@ -5,7 +5,7 @@ import { GoogleAppHttpService } from "services/GoogleAppHttpService";
 export class LinkToGoogle {
   googleAppHttpService: GoogleAppHttpService;
 
-  label: string = "Link your Google account!";
+  label: string = "Sign in with Google";
   @bindable disabled: boolean;
 
   constructor(googleHttpService: GoogleAppHttpService) {

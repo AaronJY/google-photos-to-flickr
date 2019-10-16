@@ -14,7 +14,7 @@ export class App {
 		config.options.pushState = true;
 		config.options.root = "/";
 		config.map([
-			{ route: ['', 'index'], name: 'index', moduleId: PLATFORM.moduleName("routes/home/index"), title: "GPhotos2Flickr", activationStrategy: "replace" },
+			{ route: ['', 'index'], name: 'index', moduleId: PLATFORM.moduleName("routes/home/index"), title: "Google Photos to Flickr", activationStrategy: "replace" },
 		]);
 	}
 }

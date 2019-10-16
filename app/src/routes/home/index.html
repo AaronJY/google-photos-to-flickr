@@ -5,6 +5,7 @@
     <link-to-google disabled.bind="googleApiKey"></link-to-google>
     
     <template if.bind="googleApiKey">
+        <hr/>
         <download-google-library api-key.bind="googleApiKey"></download-google-library>
     </template>
 </template>
